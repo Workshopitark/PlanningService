@@ -23,6 +23,7 @@ public class Worker : BackgroundService
         _MQHostName = configuration["MQHostName"] ?? "rabbitmq";
         _pathCSV = configuration["pathCSV"] ?? string.Empty;
 
+        _logger.LogInformation(_pathCSV + _MQHostName);
     }
 
     private readonly string _MQHostName;
