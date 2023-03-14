@@ -30,11 +30,13 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-
+        
         
         var factory = new ConnectionFactory { HostName = _MQHostName };
         using var connection = factory.CreateConnection();
         using var _channel = connection.CreateModel();
+
+        _logger.LogInformation("connection lavet");
         
 
         _channel.QueueDeclare(queue: "planqueue",
@@ -56,7 +58,7 @@ public class Worker : BackgroundService
 
             TaxaBooking? taxaBooking = JsonSerializer.Deserialize<TaxaBooking>(message);
 
-            Console.WriteLine($" [x] Received {taxaBooking}");
+            _logger.LogInformation("received kunde" + taxaBooking!.Kundenavn);
 
             File.AppendAllText(_pathCSV, $"{taxaBooking.Kundenavn},{taxaBooking.Starttidspunkt},{taxaBooking.Startsted},{taxaBooking.Endested}"+Environment.NewLine);
         };
