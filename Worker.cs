@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using PlanningService;
 using System.Xml.Linq;
 using System.Text;
-using RabbitMQ.Client;
 using System.Threading.Channels;
 using System.Text.Json;
 
