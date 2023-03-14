@@ -21,10 +21,12 @@ public class Worker : BackgroundService
     {
         _logger = logger;
         _MQHostName = configuration["MQHostName"] ?? "rabbitmq";
+        _pathCSV = configuration["pathCSV"] ?? string.Empty;
 
     }
 
     private readonly string _MQHostName;
+    private readonly string _pathCSV;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -52,7 +54,11 @@ public class Worker : BackgroundService
 
             var message = Encoding.UTF8.GetString(body);
 
-            Console.WriteLine($" [x] Received {message}");
+            TaxaBooking? taxaBooking = JsonSerializer.Deserialize<TaxaBooking>(message);
+
+            Console.WriteLine($" [x] Received {taxaBooking}");
+
+            File.AppendAllText(_pathCSV, $"{taxaBooking.Kundenavn},{taxaBooking.Starttidspunkt},{taxaBooking.Startsted},{taxaBooking.Endested}"+Environment.NewLine);
         };
         _channel.BasicConsume(queue: "planqueue",
                              autoAck: true,
@@ -63,7 +69,7 @@ public class Worker : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-            await Task.Delay(5000, stoppingToken);
+            await Task.Delay(20000, stoppingToken);
         }
     }
 }
