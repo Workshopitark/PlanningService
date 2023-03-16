@@ -30,7 +30,7 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        
+        _logger.LogInformation("starter execute funk");
         
         var factory = new ConnectionFactory { HostName = _MQHostName };
         using var connection = factory.CreateConnection();
