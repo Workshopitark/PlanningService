@@ -1,0 +1,5 @@
+Alle problemstillinger bliver fremlagt som et issue, så der er fast struktur.
+
+På modul 9, har hovedformålet været at få en pipeline til at virke.
+I Actions oprettes et Docker Image med DOCKER_USER & DOCKER_PASSWORD, samt en reference til repositoriet.
+Dette burde være nok til at få en action sat i gang. 
